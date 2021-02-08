@@ -1,0 +1,6 @@
+dataset/data/*
+dataset/files/*
+
+EDUTEM_Train-backup.ipynb
+*/__pycache__
+.ipynb_checkpoints/

@@ -1,15 +1,15 @@
 # EDUTEM: Learning explicit dual-interaction for healthcareanalytics
----
+
 The source code for ___EDUTEM: Learning explicit dual-interaction for healthcareanalytics___
 
 ## Requirements
----
+
 Install python, tensorflow 1.14.0, Keras 2.3.1.
 Detailed requirements are shown in the [requirements.txt](./requirements.txt)
 
 
 ## Data preparation
----
+
 As for the Physionet2012 dataset, it is a public dataset and you can download it from [https://physionet.org/content/challenge-2012/1.0.0/](https://physionet.org/content/challenge-2012/1.0.0/)
 and then preprocess the dataset with [preprocess_phy2012.ipynb](dataset/physionet2012/preprocess_phy2012.ipynb).
 
@@ -19,7 +19,7 @@ and then please preprocess the dataset with [preprocess_MIMIC3.ipynb](dataset/MI
 
 
 ## Training EDUTEM
----
+
 You can run the EDUTEM with the jupyter file [EDUTEM_Train.ipynb](EDUTEM_Train.ipynb), and we have already set up the default setting to train the EDUTEM on the physionet2012 dataset.
 
 1. Please specify the parameter for the dataset setting, such as dataset, application, data filing, standardization.

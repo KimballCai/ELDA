@@ -1,13 +1,6 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
 
-'''
-@version:0.1
-@author:Cai Qingpeng
-@file: DataLoader.py
-@time: 2020/11/29 3:56 PM
-'''
-
 import os
 import numpy as np
 import time
@@ -22,10 +15,10 @@ class MIMIC3_DataLoader(object):
         self.data_path = os.path.abspath(os.path.dirname(__file__)) + "/data/"
 
 
-        if label not in ["inhos_mortality", 'length_of_stay_3', 'length_of_stay_7', 'LOS_3']:
+        if label not in ["inhos_mortality"]:
             raise AttributeError("No application for MIMIC3: %s" % label)
         else:
-            logging.info("fold path: %s_folds.npz"%(self.root_path+label))
+            logging.info("fold path: %s_folds.npz"%(label))
             folds_info = np.load(self.root_path + label+ "_folds.npz")
 
 
@@ -40,10 +33,8 @@ class MIMIC3_DataLoader(object):
         self.max_timesteps = args.max_timesteps
         self.mode = args.dataset_mode
 
-        if self.mode in ['linear', 'regular']:
+        if self.mode in ['regular']:
             time_norm_info = folds_info["regular_norm"][()]
-        elif self.mode in ['irregular']:
-            time_norm_info = folds_info["irregular_norm"][()]
         else:
             raise NotImplementedError("[!]No such dataset mode: %s"%self.mode)
         self.time_norm = {
@@ -88,23 +79,7 @@ class MIMIC3_DataLoader(object):
             if self.mode == "regular":
                 data = self.get_regular_sample(index, label, length=self.args.max_timesteps, ffill=self.args.ffill,
                                                standardization=self.args.standardization,
-                                               # data_clip=self.args.data_clip,
-                                               # data_clip_min=self.args.data_clip_min,
-                                               # data_clip_max=self.args.data_clip_max,
                                                )
-            elif self.mode == "irregular":
-                data = self.get_irregular_sample(index, label, length=self.args.max_timesteps, ffill=self.args.ffill,
-                                                 standardization=self.args.standardization,
-                                                 # data_clip=self.args.data_clip,
-                                                 # data_clip_min=self.args.data_clip_min,
-                                                 # data_clip_max=self.args.data_clip_max,
-                                                 )
-            elif self.mode == "linear":
-                data = self.get_linear_sample(index, label, standardization=self.args.standardization,
-                                              # data_clip=self.args.data_clip,
-                                              # data_clip_min=self.args.data_clip_min,
-                                              # data_clip_max=self.args.data_clip_max,
-                                              )
             else:
                 raise NotImplementedError("[!]No such dataset mode: %s" % self.mode)
             for key in data.keys():
@@ -144,65 +119,8 @@ class MIMIC3_DataLoader(object):
         # "MORTALITY_INUNIT","MORTALITY_INHOSPITAL","MORTALITY","LOS_UNIT_UNIT","LOS_UNIT_DISCHARGE"
         if label == "inhos_mortality":
             return data[1]
-        elif label == "length_of_stay_3":
-            return int(data[4] <= 3)
-        elif label == "length_of_stay_7":
-            return int(data[4] <= 7)
-        elif label == "LOS_3":
-            return int(data[3] <= 3)
-
-    def get_linear_sample(self, index, label, standardization=False, data_clip=False, data_clip_min=-1*float('inf'), data_clip_max=float('inf')):
-        data = np.load(self.data_path+"%s.npz" % index)
-        result = {}
-        result['info'] = np.array(self.transfer_info(data['info']))
-
-        linear_data = data['regular_data'][()]
-        result["tdata"] = linear_data["tdata"].sum(0)/(linear_data["tmask"].sum(0)+1e-10)
-        result["tmask"] = linear_data["tmask"].any(0).astype(int)
-
-        if standardization:
-            result["tdata"] = (result['tdata'] - self.time_norm['avg']) / self.time_norm['std']
-
-        if data_clip:
-            result['tdata'] = np.clip(result['tdata'],a_min=data_clip_min,a_max=data_clip_max)
-
-        result['labels'] = self.transfer_label(data['labels'], label)
-        return result
 
 
-    def get_irregular_sample(self, index, label, length=200, ffill=False, standardization=False, data_clip=False, data_clip_min=-1*float('inf'), data_clip_max=float('inf')):
-        data = np.load(self.data_path+"%s.npz" % index)
-        result = {}
-        result['info'] = np.array(self.transfer_info(data['info']))
-
-        irregular_data = data['irregular_data'][()]
-        for key in ["stime","tdata","tmask"]:
-            result[key] = np.array(irregular_data[key])
-
-        if standardization:
-            result['tdata'] = (result['tdata'] - self.time_norm['avg']) / self.time_norm['std']
-
-        if data_clip:
-            result['tdata'] = np.clip(result['tdata'],a_min=data_clip_min,a_max=data_clip_max)
-
-        if ffill:
-            result['tdata'], result['tmask'] = self._ffill(result['tdata'], result['tmask'])
-
-        result['tdata'] = result['tdata'] * result['tmask']
-
-        if len(result['stime']) > length:
-            result['stime'] = result['stime'][:length]
-            result['tdata'] = result['tdata'][:length]
-            result['tmask'] = result['tmask'][:length]
-        else:
-            padding = np.zeros((length - len(result['stime']), self.input_dim))
-            result['stime'] = np.concatenate((result['stime'] / 3600, np.zeros(length - len(result['stime']))), 0)
-            result['tdata'] = np.concatenate((result['tdata'], padding), 0)
-            result['tmask'] = np.concatenate((result['tmask'], padding), 0)
-
-        result['labels'] = self.transfer_label(data['labels'], label)
-
-        return result
 
     def get_regular_sample(self, index,label, length=48, ffill=False, standardization=False, data_clip=False, data_clip_min=-1*float('inf'), data_clip_max=float('inf')):
         data = np.load(self.data_path + "%s.npz" % index)
@@ -278,32 +196,3 @@ class MIMIC3_DataLoader(object):
     def get_subset_size(self, set):
         return len(self.fold[self.sets_id[set]])
 
-if __name__ ==  "__main__":
-    import argparse
-    args = argparse.ArgumentParser(add_help=False)
-    args = args.parse_args()
-    args.dataset_mode = "regular"
-    args.max_timesteps = 48
-    args.ffill = True
-    args.standardization = True
-    args.data_clip = True
-    args.data_clip_min = -1*float('inf')
-    args.data_clip_max = float('inf')
-    print(args)
-
-    loaders = MIMIC3_DataLoader(args, label="length_of_stay_7", debug=True)
-    sample_num = 0
-    sub_steps = loaders.sub_steps("train", 128)
-    print(sub_steps)
-    step_count = 0
-    for x,y in loaders.get_generator("train",False,128,True):
-        sample_num+=len(y)
-        print("x_info", x[0].shape)
-        print("x_time", x[1].shape)
-        print("x_data", x[2].shape)
-        print("x_mask", x[3].shape)
-        print("y",y.shape,y)
-        step_count+=1
-        if step_count == sub_steps:
-            print(sample_num)
-            break

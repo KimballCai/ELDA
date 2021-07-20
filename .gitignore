@@ -1,7 +1,6 @@
 dataset/physionet2012/data/*
 dataset/physionet2012/files/*
 
-EDUTEM_Train-backup.ipynb
 */__pycache__
 */*/__pycache__
 .ipynb_checkpoints/

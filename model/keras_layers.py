@@ -5,7 +5,7 @@
 from keras.engine.topology import Layer
 import tensorflow as tf
 
-class EDUTEM_f(Layer):
+class ELDA_f(Layer):
     def __init__(self, input_dim, embedding_dim, time_step, compress_dim, clip_min, clip_max, **kwargs):
         self.input_dim = input_dim
         self.time_step = time_step
@@ -14,7 +14,7 @@ class EDUTEM_f(Layer):
         self.clip_max = clip_max
         self.embed_dim = embedding_dim
 
-        super(EDUTEM_f, self).__init__(**kwargs)
+        super(ELDA_f, self).__init__(**kwargs)
 
     def build(self, input_shape):
         input_dim = self.input_dim
@@ -52,7 +52,7 @@ class EDUTEM_f(Layer):
                                           shape=(self.embed_dim * 2, self.compress_dim),
                                           initializer='glorot_uniform',
                                           trainable=True)
-        super(EDUTEM_f, self).build(input_shape)  
+        super(ELDA_f, self).build(input_shape)  
 
     def mask_softmax(self, attention, mask):
         attention = tf.clip_by_value(attention, clip_value_min=-5, clip_value_max=5)
@@ -116,12 +116,12 @@ class EDUTEM_f(Layer):
 
 
 
-class EDUTEM_t(Layer):
+class ELDA_t(Layer):
     def __init__(self, time_step, hidden_dim):
         self.hidden_dim = hidden_dim
         self.time_step = time_step
 
-        super(EDUTEM_t, self).__init__()
+        super(ELDA_t, self).__init__()
 
     def build(self, input_shape):
         self.attention_t_w = self.add_weight(name='attention_t_w',
@@ -132,7 +132,7 @@ class EDUTEM_t(Layer):
                                              shape=(1,),
                                              initializer='zero',
                                              trainable=True)
-        super(EDUTEM_t, self).build(input_shape)
+        super(ELDA_t, self).build(input_shape)
 
     def call(self, input_t):
         self.input_t = input_t

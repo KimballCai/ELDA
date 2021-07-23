@@ -1,0 +1,206 @@
+07-23-21 20:38:Timestamp: 20210723203807
+07-23-21 20:38:Arguments:Namespace(application='inhos_mortality', batch_size=64, clip_max=3.0, clip_min=-3.0, compress_dim=4, data_clip=False, data_clip_max=inf, data_clip_min=-inf, dataset='physionet2012', dataset_mode='regular', debug=False, embed_dim=24, epoch=200, ffill=True, ffill_steps=48, folds=[0], gpu='0,1,2', hidden_dim=64, lr=0.001, max_timesteps=48, mode='train', model='ELDA', model_path='', patience=10, random=False, standardization=True, weight_decay=1e-07)
+07-23-21 20:38:[*] Loading dataset: physionet2012
+07-23-21 20:38:fold path: inhos_mortality_folds.npz
+07-23-21 20:38:train: [150491 143937 148710 140049 156691]
+07-23-21 20:38:train: 9600 valid: 1200 test: 1200
+07-23-21 20:38:Model: "model_1"
+07-23-21 20:38:__________________________________________________________________________________________________
+07-23-21 20:38:Layer (type)                    Output Shape         Param #     Connected to                     
+07-23-21 20:38:==================================================================================================
+07-23-21 20:38:input_3 (InputLayer)            (None, 48, 37)       0                                            
+07-23-21 20:38:__________________________________________________________________________________________________
+07-23-21 20:38:input_4 (InputLayer)            (None, 48, 37)       0                                            
+07-23-21 20:38:__________________________________________________________________________________________________
+07-23-21 20:38:elda_f_1 (ELDA_f)               (None, 48, 148)      3781        input_3[0][0]                    
+07-23-21 20:38:                                                                 input_4[0][0]                    
+07-23-21 20:38:__________________________________________________________________________________________________
+07-23-21 20:38:cu_dnngru_1 (CuDNNGRU)          (None, 48, 64)       41088       elda_f_1[0][0]                   
+07-23-21 20:38:__________________________________________________________________________________________________
+07-23-21 20:38:elda_t_1 (ELDA_t)               (None, 128)          65          cu_dnngru_1[0][0]                
+07-23-21 20:38:__________________________________________________________________________________________________
+07-23-21 20:38:dense_1 (Dense)                 (None, 64)           8256        elda_t_1[0][0]                   
+07-23-21 20:38:__________________________________________________________________________________________________
+07-23-21 20:38:dense_2 (Dense)                 (None, 1)            65          dense_1[0][0]                    
+07-23-21 20:38:==================================================================================================
+07-23-21 20:38:Total params: 53,255
+07-23-21 20:38:Trainable params: 53,255
+07-23-21 20:38:Non-trainable params: 0
+07-23-21 20:38:__________________________________________________________________________________________________
+07-23-21 20:39:[ELDA Epoch 1]
+07-23-21 20:39:[train] bceloss:0.3291 auroc:0.8162 auprc:0.4474 acc:0.8649 
+07-23-21 20:39:[valid] bceloss:0.3397 auroc:0.7888 auprc:0.4463 acc:0.8675 
+07-23-21 20:39:[*] model_0.h5 saved 
+07-23-21 20:39:[test] bceloss:0.3347 auroc:0.8080 auprc:0.4327 acc:0.8667 
+07-23-21 20:39:[ELDA Epoch 2]
+07-23-21 20:39:[train] bceloss:0.3092 auroc:0.8469 auprc:0.5070 acc:0.8698 
+07-23-21 20:39:[valid] bceloss:0.3305 auroc:0.8201 auprc:0.4894 acc:0.8658 
+07-23-21 20:39:[*] model_0.h5 saved 
+07-23-21 20:39:[test] bceloss:0.3145 auroc:0.8463 auprc:0.4803 acc:0.8667 
+07-23-21 20:39:[ELDA Epoch 3]
+07-23-21 20:39:[train] bceloss:0.2959 auroc:0.8556 auprc:0.5289 acc:0.8758 
+07-23-21 20:39:[valid] bceloss:0.3162 auroc:0.8215 auprc:0.4999 acc:0.8758 
+07-23-21 20:39:[*] model_0.h5 saved 
+07-23-21 20:39:[test] bceloss:0.2934 auroc:0.8612 auprc:0.5142 acc:0.8775 
+07-23-21 20:39:[ELDA Epoch 4]
+07-23-21 20:39:[train] bceloss:0.3143 auroc:0.8607 auprc:0.5420 acc:0.8761 
+07-23-21 20:39:[valid] bceloss:0.3266 auroc:0.8319 auprc:0.5181 acc:0.8717 
+07-23-21 20:39:[test] bceloss:0.3126 auroc:0.8633 auprc:0.5176 acc:0.8717 
+07-23-21 20:39:[ELDA Epoch 5]
+07-23-21 20:39:[train] bceloss:0.2928 auroc:0.8656 auprc:0.5502 acc:0.8767 
+07-23-21 20:39:[valid] bceloss:0.3069 auroc:0.8406 auprc:0.5315 acc:0.8700 
+07-23-21 20:39:[*] model_0.h5 saved 
+07-23-21 20:39:[test] bceloss:0.2901 auroc:0.8701 auprc:0.5217 acc:0.8767 
+07-23-21 20:39:[ELDA Epoch 6]
+07-23-21 20:39:[train] bceloss:0.2944 auroc:0.8665 auprc:0.5526 acc:0.8704 
+07-23-21 20:39:[valid] bceloss:0.3080 auroc:0.8431 auprc:0.5400 acc:0.8700 
+07-23-21 20:39:[test] bceloss:0.2942 auroc:0.8685 auprc:0.5226 acc:0.8750 
+07-23-21 20:40:[ELDA Epoch 7]
+07-23-21 20:40:[train] bceloss:0.2857 auroc:0.8679 auprc:0.5585 acc:0.8800 
+07-23-21 20:40:[valid] bceloss:0.3031 auroc:0.8395 auprc:0.5307 acc:0.8792 
+07-23-21 20:40:[*] model_0.h5 saved 
+07-23-21 20:40:[test] bceloss:0.2854 auroc:0.8729 auprc:0.5380 acc:0.8742 
+07-23-21 20:40:[ELDA Epoch 8]
+07-23-21 20:40:[train] bceloss:0.2834 auroc:0.8706 auprc:0.5663 acc:0.8820 
+07-23-21 20:40:[valid] bceloss:0.3010 auroc:0.8438 auprc:0.5380 acc:0.8858 
+07-23-21 20:40:[*] model_0.h5 saved 
+07-23-21 20:40:[test] bceloss:0.2842 auroc:0.8723 auprc:0.5331 acc:0.8725 
+07-23-21 20:40:[ELDA Epoch 9]
+07-23-21 20:40:[train] bceloss:0.2893 auroc:0.8719 auprc:0.5704 acc:0.8802 
+07-23-21 20:40:[valid] bceloss:0.3096 auroc:0.8470 auprc:0.5439 acc:0.8825 
+07-23-21 20:40:[test] bceloss:0.2918 auroc:0.8752 auprc:0.5437 acc:0.8717 
+07-23-21 20:40:[ELDA Epoch 10]
+07-23-21 20:40:[train] bceloss:0.2779 auroc:0.8751 auprc:0.5819 acc:0.8850 
+07-23-21 20:40:[valid] bceloss:0.2964 auroc:0.8482 auprc:0.5505 acc:0.8875 
+07-23-21 20:40:[*] model_0.h5 saved 
+07-23-21 20:40:[test] bceloss:0.2800 auroc:0.8777 auprc:0.5487 acc:0.8742 
+07-23-21 20:40:[ELDA Epoch 11]
+07-23-21 20:40:[train] bceloss:0.2763 auroc:0.8768 auprc:0.5873 acc:0.8846 
+07-23-21 20:40:[valid] bceloss:0.2959 auroc:0.8495 auprc:0.5474 acc:0.8858 
+07-23-21 20:40:[*] model_0.h5 saved 
+07-23-21 20:40:[test] bceloss:0.2837 auroc:0.8754 auprc:0.5411 acc:0.8783 
+07-23-21 20:40:[ELDA Epoch 12]
+07-23-21 20:40:[train] bceloss:0.2758 auroc:0.8773 auprc:0.5894 acc:0.8858 
+07-23-21 20:40:[valid] bceloss:0.2967 auroc:0.8502 auprc:0.5538 acc:0.8833 
+07-23-21 20:40:[test] bceloss:0.2792 auroc:0.8788 auprc:0.5534 acc:0.8775 
+07-23-21 20:40:[ELDA Epoch 13]
+07-23-21 20:40:[train] bceloss:0.2778 auroc:0.8778 auprc:0.5935 acc:0.8821 
+07-23-21 20:40:[valid] bceloss:0.2977 auroc:0.8500 auprc:0.5496 acc:0.8842 
+07-23-21 20:40:[test] bceloss:0.2834 auroc:0.8746 auprc:0.5479 acc:0.8775 
+07-23-21 20:41:[ELDA Epoch 14]
+07-23-21 20:41:[train] bceloss:0.2792 auroc:0.8790 auprc:0.5967 acc:0.8858 
+07-23-21 20:41:[valid] bceloss:0.2981 auroc:0.8493 auprc:0.5447 acc:0.8833 
+07-23-21 20:41:[test] bceloss:0.2846 auroc:0.8757 auprc:0.5475 acc:0.8783 
+07-23-21 20:41:[ELDA Epoch 15]
+07-23-21 20:41:[train] bceloss:0.2718 auroc:0.8822 auprc:0.6086 acc:0.8882 
+07-23-21 20:41:[valid] bceloss:0.2940 auroc:0.8511 auprc:0.5577 acc:0.8892 
+07-23-21 20:41:[*] model_0.h5 saved 
+07-23-21 20:41:[test] bceloss:0.2780 auroc:0.8788 auprc:0.5590 acc:0.8842 
+07-23-21 20:41:[ELDA Epoch 16]
+07-23-21 20:41:[train] bceloss:0.2703 auroc:0.8832 auprc:0.6071 acc:0.8860 
+07-23-21 20:41:[valid] bceloss:0.2932 auroc:0.8514 auprc:0.5554 acc:0.8825 
+07-23-21 20:41:[*] model_0.h5 saved 
+07-23-21 20:41:[test] bceloss:0.2752 auroc:0.8832 auprc:0.5675 acc:0.8783 
+07-23-21 20:41:[ELDA Epoch 17]
+07-23-21 20:41:[train] bceloss:0.2688 auroc:0.8848 auprc:0.6158 acc:0.8880 
+07-23-21 20:41:[valid] bceloss:0.2929 auroc:0.8516 auprc:0.5569 acc:0.8858 
+07-23-21 20:41:[*] model_0.h5 saved 
+07-23-21 20:41:[test] bceloss:0.2758 auroc:0.8842 auprc:0.5651 acc:0.8775 
+07-23-21 20:41:[ELDA Epoch 18]
+07-23-21 20:41:[train] bceloss:0.2672 auroc:0.8869 auprc:0.6222 acc:0.8879 
+07-23-21 20:41:[valid] bceloss:0.2911 auroc:0.8546 auprc:0.5629 acc:0.8900 
+07-23-21 20:41:[*] model_0.h5 saved 
+07-23-21 20:41:[test] bceloss:0.2740 auroc:0.8849 auprc:0.5705 acc:0.8817 
+07-23-21 20:41:[ELDA Epoch 19]
+07-23-21 20:41:[train] bceloss:0.2669 auroc:0.8870 auprc:0.6245 acc:0.8898 
+07-23-21 20:41:[valid] bceloss:0.2971 auroc:0.8537 auprc:0.5620 acc:0.8867 
+07-23-21 20:41:[test] bceloss:0.2770 auroc:0.8859 auprc:0.5784 acc:0.8792 
+07-23-21 20:42:[ELDA Epoch 20]
+07-23-21 20:42:[train] bceloss:0.2651 auroc:0.8879 auprc:0.6278 acc:0.8894 
+07-23-21 20:42:[valid] bceloss:0.2927 auroc:0.8534 auprc:0.5543 acc:0.8875 
+07-23-21 20:42:[test] bceloss:0.2764 auroc:0.8828 auprc:0.5748 acc:0.8767 
+07-23-21 20:42:[ELDA Epoch 21]
+07-23-21 20:42:[train] bceloss:0.2647 auroc:0.8900 auprc:0.6347 acc:0.8919 
+07-23-21 20:42:[valid] bceloss:0.2969 auroc:0.8560 auprc:0.5626 acc:0.8875 
+07-23-21 20:42:[test] bceloss:0.2806 auroc:0.8844 auprc:0.5770 acc:0.8792 
+07-23-21 20:42:[ELDA Epoch 22]
+07-23-21 20:42:[train] bceloss:0.2599 auroc:0.8918 auprc:0.6409 acc:0.8948 
+07-23-21 20:42:[valid] bceloss:0.2892 auroc:0.8581 auprc:0.5691 acc:0.8908 
+07-23-21 20:42:[*] model_0.h5 saved 
+07-23-21 20:42:[test] bceloss:0.2735 auroc:0.8855 auprc:0.5754 acc:0.8792 
+07-23-21 20:42:[ELDA Epoch 23]
+07-23-21 20:42:[train] bceloss:0.2581 auroc:0.8931 auprc:0.6449 acc:0.8942 
+07-23-21 20:42:[valid] bceloss:0.2892 auroc:0.8581 auprc:0.5692 acc:0.8908 
+07-23-21 20:42:[test] bceloss:0.2731 auroc:0.8863 auprc:0.5792 acc:0.8800 
+07-23-21 20:42:[ELDA Epoch 24]
+07-23-21 20:42:[train] bceloss:0.2575 auroc:0.8944 auprc:0.6482 acc:0.8930 
+07-23-21 20:42:[valid] bceloss:0.2917 auroc:0.8569 auprc:0.5633 acc:0.8883 
+07-23-21 20:42:[test] bceloss:0.2721 auroc:0.8884 auprc:0.5856 acc:0.8800 
+07-23-21 20:42:[ELDA Epoch 25]
+07-23-21 20:42:[train] bceloss:0.2558 auroc:0.8951 auprc:0.6515 acc:0.8949 
+07-23-21 20:42:[valid] bceloss:0.2904 auroc:0.8562 auprc:0.5631 acc:0.8883 
+07-23-21 20:42:[test] bceloss:0.2716 auroc:0.8876 auprc:0.5840 acc:0.8800 
+07-23-21 20:43:[ELDA Epoch 26]
+07-23-21 20:43:[train] bceloss:0.2554 auroc:0.8955 auprc:0.6526 acc:0.8945 
+07-23-21 20:43:[valid] bceloss:0.2895 auroc:0.8581 auprc:0.5639 acc:0.8858 
+07-23-21 20:43:[test] bceloss:0.2723 auroc:0.8875 auprc:0.5831 acc:0.8800 
+07-23-21 20:43:[ELDA Epoch 27]
+07-23-21 20:43:[train] bceloss:0.2555 auroc:0.8961 auprc:0.6556 acc:0.8947 
+07-23-21 20:43:[valid] bceloss:0.2892 auroc:0.8575 auprc:0.5681 acc:0.8892 
+07-23-21 20:43:[*] model_0.h5 saved 
+07-23-21 20:43:[test] bceloss:0.2723 auroc:0.8869 auprc:0.5770 acc:0.8792 
+07-23-21 20:43:[ELDA Epoch 28]
+07-23-21 20:43:[train] bceloss:0.2545 auroc:0.8969 auprc:0.6580 acc:0.8956 
+07-23-21 20:43:[valid] bceloss:0.2902 auroc:0.8578 auprc:0.5668 acc:0.8842 
+07-23-21 20:43:[test] bceloss:0.2730 auroc:0.8868 auprc:0.5783 acc:0.8792 
+07-23-21 20:43:[ELDA Epoch 29]
+07-23-21 20:43:[train] bceloss:0.2528 auroc:0.8975 auprc:0.6592 acc:0.8958 
+07-23-21 20:43:[valid] bceloss:0.2921 auroc:0.8575 auprc:0.5670 acc:0.8900 
+07-23-21 20:43:[test] bceloss:0.2736 auroc:0.8875 auprc:0.5831 acc:0.8833 
+07-23-21 20:43:[ELDA Epoch 30]
+07-23-21 20:43:[train] bceloss:0.2525 auroc:0.8979 auprc:0.6603 acc:0.8952 
+07-23-21 20:43:[valid] bceloss:0.2923 auroc:0.8571 auprc:0.5650 acc:0.8892 
+07-23-21 20:43:[test] bceloss:0.2742 auroc:0.8871 auprc:0.5825 acc:0.8842 
+07-23-21 20:43:[ELDA Epoch 31]
+07-23-21 20:43:[train] bceloss:0.2517 auroc:0.8981 auprc:0.6621 acc:0.8960 
+07-23-21 20:43:[valid] bceloss:0.2922 auroc:0.8565 auprc:0.5652 acc:0.8850 
+07-23-21 20:43:[test] bceloss:0.2726 auroc:0.8877 auprc:0.5816 acc:0.8817 
+07-23-21 20:43:[ELDA Epoch 32]
+07-23-21 20:43:[train] bceloss:0.2517 auroc:0.8984 auprc:0.6621 acc:0.8967 
+07-23-21 20:43:[valid] bceloss:0.2923 auroc:0.8576 auprc:0.5678 acc:0.8900 
+07-23-21 20:43:[test] bceloss:0.2745 auroc:0.8870 auprc:0.5786 acc:0.8808 
+07-23-21 20:44:[ELDA Epoch 33]
+07-23-21 20:44:[train] bceloss:0.2509 auroc:0.8989 auprc:0.6639 acc:0.8961 
+07-23-21 20:44:[valid] bceloss:0.2922 auroc:0.8564 auprc:0.5619 acc:0.8858 
+07-23-21 20:44:[test] bceloss:0.2738 auroc:0.8868 auprc:0.5810 acc:0.8833 
+07-23-21 20:44:[ELDA Epoch 34]
+07-23-21 20:44:[train] bceloss:0.2513 auroc:0.8991 auprc:0.6648 acc:0.8968 
+07-23-21 20:44:[valid] bceloss:0.2922 auroc:0.8559 auprc:0.5621 acc:0.8842 
+07-23-21 20:44:[test] bceloss:0.2738 auroc:0.8865 auprc:0.5785 acc:0.8808 
+07-23-21 20:44:[ELDA Epoch 35]
+07-23-21 20:44:[train] bceloss:0.2503 auroc:0.8996 auprc:0.6660 acc:0.8976 
+07-23-21 20:44:[valid] bceloss:0.2923 auroc:0.8563 auprc:0.5631 acc:0.8867 
+07-23-21 20:44:[test] bceloss:0.2736 auroc:0.8867 auprc:0.5784 acc:0.8833 
+07-23-21 20:44:[ELDA Epoch 36]
+07-23-21 20:44:[train] bceloss:0.2501 auroc:0.8998 auprc:0.6671 acc:0.8976 
+07-23-21 20:44:[valid] bceloss:0.2923 auroc:0.8556 auprc:0.5612 acc:0.8867 
+07-23-21 20:44:[test] bceloss:0.2729 auroc:0.8867 auprc:0.5780 acc:0.8808 
+07-23-21 20:44:[ELDA Epoch 37]
+07-23-21 20:44:[train] bceloss:0.2498 auroc:0.8999 auprc:0.6669 acc:0.8968 
+07-23-21 20:44:[valid] bceloss:0.2935 auroc:0.8562 auprc:0.5649 acc:0.8850 
+07-23-21 20:44:[test] bceloss:0.2741 auroc:0.8873 auprc:0.5798 acc:0.8825 
+07-23-21 20:44:      Epoch bceloss   auroc   auprc     acc
+train    37  0.2555  0.8961  0.6556  0.8947
+valid    27  0.2892  0.8575  0.5681  0.8892
+test     25  0.2723  0.8869  0.5770  0.8792
+train    37  0.2581  0.8931  0.6449  0.8942
+valid    23  0.2892  0.8581  0.5692  0.8908
+test     24  0.2731  0.8863  0.5792  0.8800
+train    37  0.2599  0.8918  0.6409  0.8948
+valid    22  0.2892  0.8581  0.5691  0.8908
+test     24  0.2735  0.8855  0.5754  0.8792
+07-23-21 20:44:[Eval]
+07-23-21 20:44:[ELDA Epoch 0]
+07-23-21 20:44:[train] bceloss:0.2555 auroc:0.8961 auprc:0.6556 acc:0.8947 
+07-23-21 20:44:[valid] bceloss:0.2892 auroc:0.8575 auprc:0.5681 acc:0.8892 
+07-23-21 20:44:[test] bceloss:0.2723 auroc:0.8869 auprc:0.5770 acc:0.8792 
